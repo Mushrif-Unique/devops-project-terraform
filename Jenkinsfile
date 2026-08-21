@@ -49,7 +49,7 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(['terraform-ec2-ssh']) {
+                sshagent(['terraform-ec2-key-file']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
                             docker pull $IMAGE_NAME:$IMAGE_TAG
