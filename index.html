@@ -1,10 +1,456 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DevOps Project 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Infrastructure Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 7%;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .status-bar {
+            background: white;
+            padding: 18px 22px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .details {
+            margin-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 12px;
+        }
+
+        .details div {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .label {
+            color: #64748b;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .pipeline {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .pipeline h2 {
+            margin-bottom: 22px;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 110px;
+            text-align: center;
+            padding: 15px 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .step strong {
+            display: block;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        .step small {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .arrow {
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .pipeline-flow {
+                flex-direction: column;
+            }
+
+            .step {
+                width: 100%;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>DevOps Project 2</h1>
-    <p>Deployed using Jenkins, Docker, Terraform and AWS EC2.</p>
+
+    <header class="header">
+        <h1>DevOps Infrastructure Dashboard</h1>
+        <p>AWS Infrastructure Automation & CI/CD Deployment</p>
+    </header>
+
+    <main class="container">
+
+        <!-- System Status -->
+        <section class="status-bar">
+            <div class="status">
+                <span class="status-dot"></span>
+                System Operational
+            </div>
+
+            <div>
+                <strong>Environment:</strong> Development
+            </div>
+        </section>
+
+        <!-- Infrastructure Cards -->
+        <section class="grid">
+
+            <!-- AWS -->
+            <div class="card">
+                <div class="icon">☁️</div>
+                <h2>AWS Infrastructure</h2>
+                <p>
+                    Cloud infrastructure provisioned and managed using
+                    Infrastructure as Code.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">Region</span>
+                        <span class="value">ap-southeast-2</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Service</span>
+                        <span class="value">EC2</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Status</span>
+                        <span class="value">Running</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terraform -->
+            <div class="card">
+                <div class="icon">🏗️</div>
+                <h2>Terraform</h2>
+                <p>
+                    AWS resources are automatically provisioned using
+                    modular Terraform configuration.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">Architecture</span>
+                        <span class="value">Modular</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Modules</span>
+                        <span class="value">2</span>
+                    </div>
+
+                    <div>
+                        <span class="label">IaC</span>
+                        <span class="value">Enabled</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EC2 -->
+            <div class="card">
+                <div class="icon">🖥️</div>
+                <h2>EC2 Server</h2>
+                <p>
+                    Ubuntu EC2 instance hosts the containerized application
+                    and receives automated deployments.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">OS</span>
+                        <span class="value">Ubuntu</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Port</span>
+                        <span class="value">80</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Deployment</span>
+                        <span class="value">Docker</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jenkins -->
+            <div class="card">
+                <div class="icon">🔄</div>
+                <h2>Jenkins CI/CD</h2>
+                <p>
+                    Jenkins automates the build, image publishing,
+                    deployment and health-check process.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">Pipeline</span>
+                        <span class="value">Successful</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Build</span>
+                        <span class="value">Automated</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Deployment</span>
+                        <span class="value">Automated</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docker -->
+            <div class="card">
+                <div class="icon">🐳</div>
+                <h2>Docker</h2>
+                <p>
+                    The application is packaged as a Docker image for
+                    consistent and portable deployment.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">Container</span>
+                        <span class="value">Running</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Web Server</span>
+                        <span class="value">Nginx</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Port</span>
+                        <span class="value">80:80</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docker Hub -->
+            <div class="card">
+                <div class="icon">📦</div>
+                <h2>Docker Hub</h2>
+                <p>
+                    Docker images are versioned and stored in a Docker Hub
+                    repository before deployment.
+                </p>
+
+                <div class="details">
+                    <div>
+                        <span class="label">Repository</span>
+                        <span class="value">devops-project-terraform</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Versioning</span>
+                        <span class="value">Enabled</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Latest</span>
+                        <span class="value">Available</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CI/CD Pipeline -->
+        <section class="pipeline">
+
+            <h2>CI/CD Pipeline</h2>
+
+            <div class="pipeline-flow">
+
+                <div class="step">
+                    <div>📂</div>
+                    <strong>GitHub</strong>
+                    <small>Source Code</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">
+                    <div>🔧</div>
+                    <strong>Jenkins</strong>
+                    <small>Build</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">
+                    <div>🐳</div>
+                    <strong>Docker</strong>
+                    <small>Build Image</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">
+                    <div>📦</div>
+                    <strong>Docker Hub</strong>
+                    <small>Push Image</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">
+                    <div>☁️</div>
+                    <strong>AWS EC2</strong>
+                    <small>Deploy</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">
+                    <div>✅</div>
+                    <strong>Health Check</strong>
+                    <small>Verify</small>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        DevOps Project 2 • Terraform • AWS • Jenkins • Docker
+    </footer>
+
 </body>
 </html>
