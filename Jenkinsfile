@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         IMAGE_NAME = "nawasmushrif/devops-project-terraform"
-        IMAGE_TAG = "${BUILD_NUMBER}"
-        EC2_HOST  = "52.62.187.33"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+        EC2_HOST   = "52.62.187.33"
     }
 
     stages {
@@ -49,22 +49,31 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(['terraform-ec2-key-file']) {
+                withCredentials([
+                    file(
+                        credentialsId: 'terraform-ec2-key-file',
+                        variable: 'SSH_KEY'
+                    )
+                ]) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
-                            docker pull $IMAGE_NAME:$IMAGE_TAG
+                        chmod 600 "$SSH_KEY"
 
-                            docker stop devops-project-terraform || true
-                            docker rm devops-project-terraform || true
+                        ssh -o StrictHostKeyChecking=no \
+                            -i "$SSH_KEY" \
+                            ubuntu@$EC2_HOST "
+                                docker pull $IMAGE_NAME:$IMAGE_TAG
 
-                            docker run -d \
-                                --name devops-project-terraform \
-                                --restart unless-stopped \
-                                -p 80:80 \
-                                $IMAGE_NAME:$IMAGE_TAG
+                                docker stop devops-project-terraform || true
+                                docker rm devops-project-terraform || true
 
-                            docker ps
-                        "
+                                docker run -d \
+                                    --name devops-project-terraform \
+                                    --restart unless-stopped \
+                                    -p 80:80 \
+                                    $IMAGE_NAME:$IMAGE_TAG
+
+                                docker ps
+                            "
                     '''
                 }
             }
